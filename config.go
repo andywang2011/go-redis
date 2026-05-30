@@ -16,35 +16,64 @@ const (
 
 // Config holds Redis connection settings for standalone, Sentinel, or Cluster.
 type Config struct {
-	Address      string
+	// Address is host:port for standalone mode.
+	Address string
+	// ClusterAddrs lists broker addresses for cluster mode.
 	ClusterAddrs []string
-	Password     string
-	DB           int
-	PoolSize     int
+	// Password is the Redis AUTH password.
+	Password string
+	// DB is the logical database index (standalone only).
+	DB int
+	// PoolSize is the connection pool size (default 50).
+	PoolSize int
+	// MinIdleConns is the minimum idle connections (default 10).
 	MinIdleConns int
-	Cert, Key, CA string
-	MasterName       string
-	SentinelAddrs    []string
-	Username         string
+	// Cert is the client certificate PEM for TLS.
+	Cert string
+	// Key is the client private key PEM for TLS.
+	Key string
+	// CA is the root CA PEM for TLS.
+	CA string
+	// MasterName is the Sentinel master name for failover mode.
+	MasterName string
+	// SentinelAddrs lists Sentinel host:port addresses.
+	SentinelAddrs []string
+	// Username is the Redis ACL username (Redis 6+).
+	Username string
+	// SentinelUsername is the Sentinel ACL username.
 	SentinelUsername string
+	// SentinelPassword is the Sentinel AUTH password.
 	SentinelPassword string
-	DialTimeout      time.Duration
-	ReadTimeout      time.Duration
-	WriteTimeout     time.Duration
-	PoolTimeout      time.Duration
-	ConnMaxIdleTime  time.Duration
-	ConnMaxLifetime  time.Duration
-	MaxRetries       int
-	Protocol         int
-	RetryConfig      RetryConfig
+	// DialTimeout bounds initial dial time.
+	DialTimeout time.Duration
+	// ReadTimeout bounds read operations.
+	ReadTimeout time.Duration
+	// WriteTimeout bounds write operations.
+	WriteTimeout time.Duration
+	// PoolTimeout bounds waiting for a pool connection.
+	PoolTimeout time.Duration
+	// ConnMaxIdleTime closes idle connections after this duration.
+	ConnMaxIdleTime time.Duration
+	// ConnMaxLifetime is the maximum connection lifetime.
+	ConnMaxLifetime time.Duration
+	// MaxRetries is the per-command retry count in go-redis.
+	MaxRetries int
+	// Protocol is the RESP protocol version (default 2).
+	Protocol int
+	// RetryConfig controls startup Ping retry.
+	RetryConfig RetryConfig
 }
 
 // RetryConfig controls exponential-backoff retry during startup Ping and PingWithRetry.
 type RetryConfig struct {
-	MaxAttempts  int
+	// MaxAttempts is the total number of attempts (including the first).
+	MaxAttempts int
+	// InitialDelay is the first backoff pause.
 	InitialDelay time.Duration
-	MaxDelay     time.Duration
-	Multiplier   float64
+	// MaxDelay caps exponential backoff.
+	MaxDelay time.Duration
+	// Multiplier scales delay after each failed attempt.
+	Multiplier float64
 }
 
 // ConfigDefault returns production-oriented defaults (Address or Sentinel/Cluster must still be set).
