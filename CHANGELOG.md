@@ -1,19 +1,12 @@
 # Changelog
 
-## Unreleased
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.1.0] - 2026-11-07
 
 ### Added
 
-- English `doc.go`, `errors.go`, expanded README and examples.
-- `ClusterAddrs`, connection pool/timeouts, `ConfigDefault()`.
-- Injectable client factory hooks; `NewClientWithRetry` alias.
-- `config_apply.go` for Options mapping; CI coverage gate ≥ 85%.
-
-### Changed
-
-- `Validate()` applies pool defaults (`PoolSize` 50, `MinIdleConns` 10) and enforces exclusive connection mode.
-- Client supports cluster via `redis.Cmdable`; `Redis()` nil for cluster.
-
-### Compatibility
-
-- `NewClient(cfg) (Client, error)` and `Client` interface unchanged for standalone/sentinel callers.
+- Standalone, Sentinel, and Cluster clients with startup Ping retry and pool defaults.
