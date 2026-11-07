@@ -77,7 +77,8 @@ func TestRetryManager_ctxCancelDuringOp(t *testing.T) {
 
 func TestRetryManager_nilCtxAndZeroSleep(t *testing.T) {
 	rm := newRetryManager(DefaultRetryConfig())
-	if err := rm.execute(nil, func(context.Context) error { return nil }); err != nil { //nolint:staticcheck
+	//lint:ignore SA1012 intentional nil context in test
+	if err := rm.execute(nil, func(context.Context) error { return nil }); err != nil {
 		t.Fatal(err)
 	}
 	if err := rm.sleep(context.Background(), 0); err != nil {

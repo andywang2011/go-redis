@@ -167,7 +167,7 @@ func TestClient_Close_error_cached(t *testing.T) {
 
 func TestNewClient_nilContext(t *testing.T) {
 	mr := miniredis.RunT(t)
-	//nolint:staticcheck // intentionally nil
+	//lint:ignore SA1012 intentional nil context in test
 	cli, err := NewClient(nil, Config{Address: mr.Addr()})
 	if err != nil {
 		t.Fatal(err)
